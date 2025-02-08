@@ -1,12 +1,13 @@
 {
   "expo": {
-    "name": "my-portfolio",
-    "slug": "my-portfolio",
+    "name": "portfolio-app",
+    "slug": "portfolio-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "scheme": "beer.asmz.portfolio",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -22,7 +23,9 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "bundler": "metro",
+      "favicon": "./assets/favicon.jpg"
+    },
+    "plugins": ["expo-router"]
   }
 }
