@@ -2,7 +2,6 @@ import { CardProps } from '#/types'
 import { useCallback } from 'react'
 import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
-import { useNavigation } from 'expo-router'
 
 type Props = {
   card: CardProps

@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "deploy": "gh-pages --nojekyll -d dist",
-    "predeploy": "expo export -p web"
+    "predeploy": "scripts/predeploy.sh"
   },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.1",
