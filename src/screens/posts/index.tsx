@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   Alert,
   FlatList,
+  ImageBackground,
   ListRenderItemInfo,
   Platform,
   StyleSheet,
@@ -12,7 +13,7 @@ import {
 import { usePosts } from './hooks'
 import { PostItem } from './components'
 import { PostProps } from '#/types'
-import { ACCENT_COLOR } from '#/constants/environment'
+import { COLORS } from '#/constants/environment'
 
 export const PostsScreen = () => {
   const {
@@ -42,18 +43,20 @@ export const PostsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
-      <FlatList
-        data={posts}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        onRefresh={onRefresh}
-        refreshing={isRefreshing}
-        onEndReached={loadMore}
-      />
-      {isLoading && (
-        <ActivityIndicator size={'large'} style={styles.indicator} color={ACCENT_COLOR} />
-      )}
+      <ImageBackground source={require('#assets/beer.jpg')} style={styles.background}>
+        <StatusBar style="auto" />
+        <FlatList
+          data={posts}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          onRefresh={onRefresh}
+          refreshing={isRefreshing}
+          onEndReached={loadMore}
+        />
+        {isLoading && (
+          <ActivityIndicator size={'large'} style={styles.indicator} color={COLORS.accent} />
+        )}
+      </ImageBackground>
     </View>
   )
 }
@@ -63,6 +66,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  background: {
+    width: '100%',
+    flex: 1,
     justifyContent: 'center',
   },
   indicator: {

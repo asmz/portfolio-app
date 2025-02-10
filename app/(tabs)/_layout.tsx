@@ -1,10 +1,10 @@
-import { ACCENT_COLOR } from '#/constants/environment'
+import { COLORS } from '#/constants/environment'
 import { FontAwesome } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
 
 export default function Layout() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: ACCENT_COLOR }}>
+    <Tabs screenOptions={{ tabBarActiveTintColor: COLORS.accent }}>
       <Tabs.Screen
         name="index"
         options={{
