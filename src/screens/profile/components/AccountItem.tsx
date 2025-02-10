@@ -1,23 +1,23 @@
-import { CardProps } from '#/types'
+import { AccountProps } from '#/types'
 import { useCallback } from 'react'
 import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import { COLORS } from '#/constants/environment'
 
 type Props = {
-  card: CardProps
+  account: AccountProps
 }
 
-export const Card = ({ card }: Props) => {
+export const AccountItem = ({ account }: Props) => {
   const onPress = useCallback(() => {
-    Linking.openURL(card.url)
-  }, [card])
+    Linking.openURL(account.url)
+  }, [account])
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.leftContainer}>
-        <Image source={card.image} style={styles.icon} />
-        <Text style={styles.text}>{card.name}</Text>
+        <Image source={account.image} style={styles.icon} />
+        <Text style={styles.text}>{account.name}</Text>
       </View>
       <View style={styles.rightContainer}>
         <FontAwesome size={16} name={'external-link'} color={COLORS.subText} />
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     backgroundColor: COLORS.blurGray,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   leftContainer: {
     flex: 1,

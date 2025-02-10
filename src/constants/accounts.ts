@@ -1,6 +1,6 @@
-import { CardProps } from '#/types'
+import { AccountProps } from '#/types'
 
-export const cards: CardProps[] = [
+export const ACCOUNTS: AccountProps[] = [
   {
     image: require('#assets/twitter.png'),
     name: '_asmz',

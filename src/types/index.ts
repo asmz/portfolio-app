@@ -1,6 +1,6 @@
 import { ImageSourcePropType } from 'react-native'
 
-export type CardProps = {
+export type AccountProps = {
   image: ImageSourcePropType
   name: string
   url: string
