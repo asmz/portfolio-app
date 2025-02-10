@@ -37,12 +37,12 @@ export const usePosts = () => {
     setIsRefreshing(false)
   }, [trigger])
 
-  const loadMore = useCallback(() => {
+  const loadMore = useCallback(async () => {
     if (!hasNext) return
 
     const newOffset = offset + LIMIT
     setOffset(newOffset)
-    trigger({ limit: LIMIT, offset: newOffset })
+    await trigger({ limit: LIMIT, offset: newOffset })
   }, [offset, hasNext, trigger])
 
   return {

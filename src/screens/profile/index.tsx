@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar'
 import { ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Avatar, Card } from './components'
 import { cards } from '#/constants/cards'
+import { COLORS } from '#/constants/environment'
 
 export const ProfileScreen = () => {
   return (
@@ -53,10 +54,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     paddingTop: 20,
+    color: COLORS.text,
   },
   description: {
     fontSize: 16,
     padding: 20,
+    color: COLORS.text,
   },
   listContainer: {
     alignItems: 'center',

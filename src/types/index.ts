@@ -8,7 +8,6 @@ export type CardProps = {
 
 type PostContentProps = {
   description: string
-  site_name: string
   title: string
   url: string
   poster?: {
@@ -18,7 +17,7 @@ type PostContentProps = {
 
 export type PostProps = {
   id_string: string
-  date: string
+  timestamp: number
   tags: string[]
   content: PostContentProps[]
 }
