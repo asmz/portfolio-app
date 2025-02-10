@@ -14,6 +14,7 @@ import { usePosts } from './hooks'
 import { PostItem } from './components'
 import { PostProps } from '#/types'
 import { COLORS } from '#/constants/environment'
+import { isLandscape } from '#/utils'
 
 export const PostsScreen = () => {
   const {
@@ -46,6 +47,7 @@ export const PostsScreen = () => {
       <ImageBackground source={require('#assets/beer.jpg')} style={styles.background}>
         <StatusBar style="auto" />
         <FlatList
+          contentContainerStyle={styles.list}
           data={posts}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
@@ -72,6 +74,9 @@ const styles = StyleSheet.create({
     width: '100%',
     flex: 1,
     justifyContent: 'center',
+  },
+  list: {
+    paddingHorizontal: isLandscape() ? 250 : 0,
   },
   indicator: {
     position: 'absolute',

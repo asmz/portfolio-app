@@ -3,6 +3,7 @@ import { ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-nativ
 import { Avatar, Card } from './components'
 import { cards } from '#/constants/cards'
 import { COLORS } from '#/constants/environment'
+import { isLandscape } from '#/utils'
 
 export const ProfileScreen = () => {
   return (
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scroll: {
-    width: '100%',
+    paddingHorizontal: isLandscape() ? 250 : 0,
     paddingBottom: 30,
   },
   headerContainer: {
