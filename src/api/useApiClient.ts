@@ -1,39 +1,38 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { apiClient, ApiClientProps } from './apiClient'
 
 type UseApiClientResult<T> = {
   data: T | null
   isLoading: boolean
   error: Error | null
+  trigger: (params: object) => Promise<void>
 }
 
-export const useApiClient = <T>({
-  url,
-  method = 'GET',
-  params,
-}: ApiClientProps): UseApiClientResult<T> => {
+type Props = {
+  url: string
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
+}
+
+export const useApiClient = <T>({ url, method = 'GET' }: Props): UseApiClientResult<T> => {
   const [data, setData] = useState<T | null>(null)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await apiClient({ url, method, params })
-        if (result) {
-          setData(result)
-        } else {
-          setData(null)
-        }
-      } catch (err) {
-        setError(err as Error)
-      } finally {
-        setIsLoading(false)
+  const trigger = useCallback(async (params: object) => {
+    setIsLoading(true)
+    try {
+      const result = await apiClient({ url, method, params: { ...params, npf: true } })
+      if (result) {
+        setData(result)
+      } else {
+        setData(null)
       }
+    } catch (err) {
+      setError(err as Error)
+    } finally {
+      setIsLoading(false)
     }
+  }, [])
 
-    fetchData()
-  }, [url])
-
-  return { data, isLoading, error }
+  return { data, isLoading, error, trigger }
 }

@@ -11,12 +11,13 @@ type PostContentProps = {
   site_name: string
   title: string
   url: string
-  poster: {
+  poster?: {
     url: string
   }[]
 }
 
 export type PostProps = {
+  id_string: string
   date: string
   tags: string[]
   content: PostContentProps[]
@@ -25,5 +26,6 @@ export type PostProps = {
 export type PostResponse = {
   response: {
     posts: PostProps[]
+    total_posts: number
   }
 }

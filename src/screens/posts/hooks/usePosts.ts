@@ -1,14 +1,52 @@
 import { useApiClient } from '#/api/useApiClient'
 import { TUMBLR_API_END_POINT } from '#/constants/environment'
-import { PostResponse } from '#/types'
+import { PostProps, PostResponse } from '#/types'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+
+const LIMIT = 20
 
 export const usePosts = () => {
-  const { data, isLoading, error } = useApiClient<PostResponse>({
+  const [posts, setPosts] = useState<PostProps[]>([])
+  const [offset, setOffset] = useState<number>(0)
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
+
+  const { data, isLoading, error, trigger } = useApiClient<PostResponse>({
     url: TUMBLR_API_END_POINT,
-    params: { npf: true, limit: 5, offset: 0 },
+    method: 'GET',
   })
 
-  // TODO: ページング処理など実装
+  useEffect(() => {
+    trigger({ limit: LIMIT, offset })
+  }, [])
 
-  return { data, isLoading, error }
+  useEffect(() => {
+    if (data) {
+      setPosts((prev) => prev.concat(data.response.posts))
+    }
+  }, [data])
+
+  const hasNext = useMemo(() => {
+    if (!data) return false
+    return data.response.total_posts > posts.length
+  }, [data, posts])
+
+  const refresh = useCallback(async () => {
+    setPosts([])
+    setOffset(0)
+    await trigger({ limit: LIMIT, offset: 0 })
+    setIsRefreshing(false)
+  }, [trigger])
+
+  const loadMore = useCallback(() => {
+    if (!hasNext) return
+
+    const newOffset = offset + LIMIT
+    setOffset(newOffset)
+    trigger({ limit: LIMIT, offset: newOffset })
+  }, [offset, hasNext, trigger])
+
+  return {
+    values: { posts, isLoading, error, isRefreshing },
+    handlers: { refresh, loadMore, setIsRefreshing },
+  }
 }
