@@ -19,6 +19,7 @@ export const PostItem = ({ post }: Props) => {
   return (
     <TouchableOpacity style={styles.touchable} onPress={onPress}>
       <View style={styles.contentContainer}>
+        {/* サムネイル画像 */}
         <View style={styles.leftContainer}>
           {poster ? (
             <Image source={{ uri: poster.url }} style={styles.thumbnail} resizeMode="contain" />
@@ -30,11 +31,13 @@ export const PostItem = ({ post }: Props) => {
             />
           )}
         </View>
+        {/* 記事タイトル */}
         <View style={styles.rightContainer}>
           <Text style={styles.title}>{content.title}</Text>
           <Text style={styles.subtitle}>{hostname}</Text>
         </View>
       </View>
+      {/* タグエリア */}
       <View style={styles.tagsContainer}>
         {post.tags.map((tag) => (
           <Text key={tag} style={styles.tag}>
@@ -42,6 +45,7 @@ export const PostItem = ({ post }: Props) => {
           </Text>
         ))}
       </View>
+      {/* フッター */}
       <View style={styles.border} />
       <Text style={styles.subtitle}>
         {new Date(post.timestamp * 1000).toLocaleDateString('ja-JP')}
