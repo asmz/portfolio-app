@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   ActivityIndicator,
   Alert,
@@ -7,20 +7,21 @@ import {
   ImageBackground,
   ListRenderItemInfo,
   Platform,
+  RefreshControl,
   StyleSheet,
   View,
 } from 'react-native'
-import { usePosts } from './hooks'
 import { PostItem } from './components'
 import { PostProps } from '#/types'
 import { COLORS } from '#/constants/environment'
 import { isLandscape } from '#/utils'
+import { useApiGetPosts } from './hooks'
 
 export const PostsScreen = () => {
   const {
     values: { posts, isLoading, error, isRefreshing },
-    handlers: { refresh, loadMore, setIsRefreshing },
-  } = usePosts()
+    handlers: { refresh, loadMore },
+  } = useApiGetPosts()
 
   useEffect(() => {
     if (error) {
@@ -36,11 +37,25 @@ export const PostsScreen = () => {
     ({ item }: ListRenderItemInfo<PostProps>) => <PostItem post={item} />,
     []
   )
+  const listFooterComponent = useCallback(() => {
+    if (isLoading && !isRefreshing) {
+      return <ActivityIndicator size={'large'} style={styles.indicator} color={COLORS.accent} />
+    } else {
+      return <View style={styles.indicator} />
+    }
+  }, [isLoading, isRefreshing])
   const keyExtractor = useCallback((item: PostProps) => item.id_string, [])
-  const onRefresh = useCallback(() => {
-    setIsRefreshing(true)
-    refresh()
-  }, [])
+  const refreshControl = useMemo(
+    () => (
+      <RefreshControl
+        refreshing={isLoading && isRefreshing}
+        onRefresh={refresh}
+        tintColor={COLORS.accent}
+        colors={[COLORS.accent]}
+      />
+    ),
+    [isLoading, refresh]
+  )
 
   return (
     <View style={styles.container}>
@@ -51,13 +66,10 @@ export const PostsScreen = () => {
           data={posts}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
-          onRefresh={onRefresh}
-          refreshing={isRefreshing}
           onEndReached={loadMore}
+          ListFooterComponent={listFooterComponent}
+          refreshControl={refreshControl}
         />
-        {isLoading && (
-          <ActivityIndicator size={'large'} style={styles.indicator} color={COLORS.accent} />
-        )}
       </ImageBackground>
     </View>
   )
@@ -76,11 +88,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   list: {
-    paddingHorizontal: isLandscape() ? 250 : 0,
+    paddingHorizontal: isLandscape() ? 250 : 8,
   },
   indicator: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 16,
+    marginBottom: 32,
   },
 })
