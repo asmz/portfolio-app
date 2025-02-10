@@ -1,21 +1,59 @@
 import { StatusBar } from 'expo-status-bar'
-import { useEffect } from 'react'
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
-import { usePosts } from './hooks/usePosts'
+import { useCallback, useEffect } from 'react'
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  ListRenderItemInfo,
+  Platform,
+  StyleSheet,
+  View,
+} from 'react-native'
+import { usePosts } from './hooks'
+import { PostItem } from './components'
+import { PostProps } from '#/types'
+import { ACCENT_COLOR } from '#/constants/environment'
 
 export const PostsScreen = () => {
-  const { data, isLoading, error } = usePosts()
+  const {
+    values: { posts, isLoading, error, isRefreshing },
+    handlers: { refresh, loadMore, setIsRefreshing },
+  } = usePosts()
 
   useEffect(() => {
-    if (data) {
-      console.log(data.response.posts)
+    if (error) {
+      if (Platform.OS === 'web') {
+        alert(error.message)
+      } else {
+        Alert.alert('エラー', error.message)
+      }
     }
-  }, [data])
+  }, [error])
+
+  const renderItem = useCallback(
+    ({ item }: ListRenderItemInfo<PostProps>) => <PostItem post={item} />,
+    []
+  )
+  const keyExtractor = useCallback((item: PostProps) => item.id_string, [])
+  const onRefresh = useCallback(() => {
+    setIsRefreshing(true)
+    refresh()
+  }, [])
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {isLoading ? <ActivityIndicator size={'large'} /> : <Text>This is "posts" page</Text>}
+      <FlatList
+        data={posts}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        onRefresh={onRefresh}
+        refreshing={isRefreshing}
+        onEndReached={loadMore}
+      />
+      {isLoading && (
+        <ActivityIndicator size={'large'} style={styles.indicator} color={ACCENT_COLOR} />
+      )}
     </View>
   )
 }
@@ -26,5 +64,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  indicator: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
   },
 })

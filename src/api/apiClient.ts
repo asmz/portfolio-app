@@ -7,6 +7,8 @@ export type ApiClientProps = {
 const checkStatus = (response: Response) => {
   if (response.ok) {
     return response
+  } else if (response.status === 429) {
+    throw new Error('API呼び出しがレート制限を超えました。しばらく待ってからお試しください。')
   } else {
     throw new Error(response.statusText)
   }
@@ -37,5 +39,6 @@ export const apiClient = async ({ url, method = 'GET', params }: ApiClientProps)
     .then((response) => response.json())
     .catch((error) => {
       console.log('request failed', error)
+      throw error
     })
 }
