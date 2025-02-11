@@ -7,7 +7,7 @@ export const Nameplate = () => {
       <Image source={require('#assets/avatar.jpg')} style={styles.avatar} />
       <Text style={styles.title}>asmz</Text>
       <Text style={styles.description}>Akira Shimizu</Text>
-      <Text style={styles.description}>純東北産麦芽系エンジニア test</Text>
+      <Text style={styles.description}>純東北産麦芽系エンジニア</Text>
     </View>
   )
 }
