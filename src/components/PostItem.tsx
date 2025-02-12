@@ -1,7 +1,8 @@
 import { COLORS } from '#/constants/environment'
 import { PostProps } from '#/types'
 import { useCallback } from 'react'
-import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Linking, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import * as WebBrowser from 'expo-web-browser'
 
 type Props = {
   post: PostProps
@@ -13,7 +14,14 @@ export const PostItem = ({ post }: Props) => {
   const hostname = new URL(content.url).hostname
 
   const onPress = useCallback(() => {
-    Linking.openURL(content.url)
+    if (Platform.OS === 'web') {
+      Linking.openURL(content.url)
+    } else {
+      const options: WebBrowser.WebBrowserOpenOptions = {
+        presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
+      }
+      WebBrowser.openBrowserAsync(content.url, options)
+    }
   }, [content])
 
   return (
