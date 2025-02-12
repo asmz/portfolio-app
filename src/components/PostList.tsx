@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar'
 import { useCallback, useEffect, useMemo } from 'react'
 import {
   ActivityIndicator,
@@ -48,7 +47,7 @@ export const PostList = ({ tag }: Props) => {
         colors={[COLORS.accent]}
       />
     ),
-    [isLoading, refresh]
+    [isLoading, isRefreshing, refresh]
   )
 
   return (
