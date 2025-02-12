@@ -5,7 +5,7 @@ import { apiClient } from '#/api/apiClient'
 
 const LIMIT = 20
 
-export const useApiGetPosts = () => {
+export const useApiGetPosts = (tag: string) => {
   const [posts, setPosts] = useState<PostProps[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
@@ -22,6 +22,7 @@ export const useApiGetPosts = () => {
       const params = {
         offset: offsetRef.current,
         limit: LIMIT,
+        tag,
         npf: true,
       }
       const result = (await apiClient({

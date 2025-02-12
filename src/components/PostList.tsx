@@ -1,37 +1,31 @@
 import { StatusBar } from 'expo-status-bar'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import {
   ActivityIndicator,
-  Alert,
   FlatList,
-  ImageBackground,
   ListRenderItemInfo,
-  Platform,
   RefreshControl,
   StyleSheet,
   View,
 } from 'react-native'
-import { PostItem } from './components'
 import { PostProps } from '#/types'
 import { COLORS } from '#/constants/environment'
 import { isLandscape } from '#/utils'
-import { useApiGetPosts } from './hooks'
+import { useApiGetPosts } from '#/hooks'
+import { useErrorHandler } from '#/hooks/useErrorHandler'
+import { PostItem } from './PostItem'
 
-export const PostsScreen = () => {
+type Props = {
+  tag: 'blog' | 'slide'
+}
+
+export const PostList = ({ tag }: Props) => {
   const {
     values: { posts, isLoading, error, isRefreshing },
     handlers: { refresh, loadMore },
-  } = useApiGetPosts()
+  } = useApiGetPosts(tag)
 
-  useEffect(() => {
-    if (error) {
-      if (Platform.OS === 'web') {
-        alert(error.message)
-      } else {
-        Alert.alert('エラー', error.message)
-      }
-    }
-  }, [error])
+  useErrorHandler(error)
 
   const renderItem = useCallback(
     ({ item }: ListRenderItemInfo<PostProps>) => <PostItem post={item} />,
@@ -58,35 +52,19 @@ export const PostsScreen = () => {
   )
 
   return (
-    <View style={styles.container}>
-      <ImageBackground source={require('#assets/beer.jpg')} style={styles.background}>
-        <StatusBar style="auto" />
-        <FlatList
-          contentContainerStyle={styles.list}
-          data={posts}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          onEndReached={loadMore}
-          ListFooterComponent={listFooterComponent}
-          refreshControl={refreshControl}
-        />
-      </ImageBackground>
-    </View>
+    <FlatList
+      contentContainerStyle={styles.list}
+      data={posts}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor}
+      onEndReached={loadMore}
+      ListFooterComponent={listFooterComponent}
+      refreshControl={refreshControl}
+    />
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  background: {
-    width: '100%',
-    flex: 1,
-    justifyContent: 'center',
-  },
   list: {
     paddingHorizontal: isLandscape() ? 250 : 8,
   },

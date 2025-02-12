@@ -1,5 +1,5 @@
 import { COLORS } from '#/constants/environment'
-import { FontAwesome } from '@expo/vector-icons'
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
 
 export default function Layout() {
@@ -14,12 +14,21 @@ export default function Layout() {
         }}
       />
       <Tabs.Screen
-        name="posts"
+        name="blog"
         options={{
           headerShown: true,
           tabBarIcon: () => <FontAwesome size={24} name={'pencil-square-o'} />,
-          tabBarLabel: 'Posts',
-          headerTitle: 'Posts',
+          tabBarLabel: 'Blog',
+          headerTitle: 'Blog',
+        }}
+      />
+      <Tabs.Screen
+        name="slide"
+        options={{
+          headerShown: true,
+          tabBarIcon: () => <MaterialCommunityIcons size={24} name={'presentation'} />,
+          tabBarLabel: 'Slide',
+          headerTitle: 'Slide',
         }}
       />
     </Tabs>
