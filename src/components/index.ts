@@ -1,2 +1,2 @@
+export * from './GlobalLayout'
 export * from './PostList'
-export * from './PostItem'

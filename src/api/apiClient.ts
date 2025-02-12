@@ -14,7 +14,7 @@ const checkStatus = (response: Response) => {
   }
 }
 
-export const apiClient = async ({ url, method = 'GET', params }: ApiClientProps) => {
+export const apiClient = async <T>({ url, method = 'GET', params }: ApiClientProps): Promise<T> => {
   let query = ''
   let body = undefined
   if (params && method === 'GET') {

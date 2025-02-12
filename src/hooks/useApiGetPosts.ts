@@ -26,10 +26,10 @@ export const useApiGetPosts = (tag: string) => {
         tag,
         npf: true,
       }
-      const result = (await apiClient({
+      const result = await apiClient<PostResponse>({
         url: TUMBLR_API_END_POINT,
         params,
-      })) as PostResponse
+      })
 
       if (result) {
         setPosts((prev) => prev.concat(result.response.posts))
