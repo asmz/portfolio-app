@@ -1,20 +1,21 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { TUMBLR_API_END_POINT } from '#/constants/environment'
 import { PostProps, PostResponse } from '#/types'
 import { apiClient } from '#/api/apiClient'
 
 const LIMIT = 20
 
-export const useApiGetPosts = () => {
+export const useApiGetPosts = (tag: string) => {
   const [posts, setPosts] = useState<PostProps[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
-  const [hasNext, setHasNext] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
+
   const offsetRef = useRef(0)
+  const hasNextRef = useRef(true)
 
   const loadMore = useCallback(async () => {
-    if (!hasNext || isLoading) return
+    if (!hasNextRef.current || isLoading) return
 
     setIsLoading(true)
 
@@ -22,6 +23,7 @@ export const useApiGetPosts = () => {
       const params = {
         offset: offsetRef.current,
         limit: LIMIT,
+        tag,
         npf: true,
       }
       const result = (await apiClient({
@@ -30,25 +32,27 @@ export const useApiGetPosts = () => {
       })) as PostResponse
 
       if (result) {
-        setHasNext(result.response.total_posts > posts.length + result.response.posts.length)
         setPosts((prev) => prev.concat(result.response.posts))
         offsetRef.current += LIMIT
+        hasNextRef.current =
+          result.response.total_posts > posts.length + result.response.posts.length
       } else {
         setPosts([])
-        setHasNext(false)
+        hasNextRef.current = false
       }
     } catch (err) {
       setError(err as Error)
-      setHasNext(false)
+      hasNextRef.current = false
     } finally {
       setIsLoading(false)
     }
-  }, [hasNext, isLoading, posts])
+  }, [offsetRef, hasNextRef, isLoading, posts])
 
   const refresh = useCallback(async () => {
     setIsRefreshing(true)
 
     offsetRef.current = 0
+    hasNextRef.current = true
     setPosts([])
     await loadMore()
 

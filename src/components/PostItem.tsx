@@ -1,6 +1,6 @@
 import { COLORS } from '#/constants/environment'
 import { PostProps } from '#/types'
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 type Props = {
