@@ -16,9 +16,10 @@ import { PostItem } from './PostItem'
 
 type Props = {
   tag: 'blog' | 'slide'
+  onPressItem?: (post: PostProps) => void
 }
 
-export const PostList = ({ tag }: Props) => {
+export const PostList = ({ tag, onPressItem }: Props) => {
   const {
     values: { posts, isLoading, error, isRefreshing },
     handlers: { refresh, loadMore },
@@ -27,7 +28,7 @@ export const PostList = ({ tag }: Props) => {
   useErrorHandler(error)
 
   const renderItem = useCallback(
-    ({ item }: ListRenderItemInfo<PostProps>) => <PostItem post={item} />,
+    ({ item }: ListRenderItemInfo<PostProps>) => <PostItem post={item} onPressItem={onPressItem} />,
     []
   )
   const listFooterComponent = useCallback(() => {
