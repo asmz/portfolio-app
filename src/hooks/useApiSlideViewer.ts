@@ -1,16 +1,16 @@
-import { useState, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { SPEAKER_DECK_API_END_POINT } from '#/constants/environment'
 import { SpeakerDeckResponse } from '#/types'
 import { apiClient } from '#/api/apiClient'
+import { XMLParser } from 'fast-xml-parser'
 
 export const useApiSlideViewer = () => {
-  const [viewerUrl, setViewerUrl] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
 
   const fetch = useCallback(
     async (speakerDeckUrl: string) => {
-      if (isLoading) return
+      if (isLoading) return null
       setIsLoading(true)
 
       try {
@@ -21,13 +21,13 @@ export const useApiSlideViewer = () => {
           url: SPEAKER_DECK_API_END_POINT,
           params,
         })
-        console.log('~~~~~~~~~~~~~ result', result)
-
         if (result) {
-          setViewerUrl(extractViewerUrlFromHtml(result.html))
+          return extractViewerUrlFromHtml(result.html)
         }
+        return null
       } catch (err) {
         setError(err as Error)
+        return null
       } finally {
         setIsLoading(false)
       }
@@ -36,17 +36,11 @@ export const useApiSlideViewer = () => {
   )
 
   const extractViewerUrlFromHtml = useCallback((html: string) => {
-    console.log('~~~~~~~~~~~~~ aaa')
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n${html}`
-    console.log('~~~~~~~~~~~~~ xml', xml)
-    const parser = new DOMParser()
-    const doc = parser.parseFromString(xml, 'application/xml')
-    console.log('~~~~~~~~~~~~~ doc', doc)
-    const iFrameNode = doc.querySelector('iframe')
-    console.log('~~~~~~~~~~~~~ iFrameNode', iFrameNode)
-    const srcAttr = iFrameNode?.getAttribute('src')
-    console.log('~~~~~~~~~~~~~ srcAttr', srcAttr)
-    const src = doc.documentElement.querySelector('iframe')?.getAttribute('src')
+    const parser = new XMLParser({
+      ignoreAttributes: false,
+    })
+    const htmlObj = parser.parse(html)
+    const src = htmlObj.iframe['@_src']
     if (src) {
       return `https:${src}`
     } else {
@@ -55,7 +49,7 @@ export const useApiSlideViewer = () => {
   }, [])
 
   return {
-    values: { viewerUrl, isLoading, error },
+    values: { isLoading, error },
     handlers: { fetch },
   }
 }
