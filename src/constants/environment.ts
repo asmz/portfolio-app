@@ -9,4 +9,5 @@ export const COLORS = {
   subText: '#7b7b7b',
   lightGray: '#e0e0e0',
   blurGray: '#eeea',
+  slideViewerBackground: '#717171',
 }

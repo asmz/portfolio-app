@@ -18,7 +18,7 @@ export const SlideScreen = () => {
       const viewerUrl = await fetch(post.content[0].url)
 
       if (viewerUrl) {
-        router.navigate({ pathname: '/slideview', params: { url: viewerUrl } })
+        router.push({ pathname: '/slide/viewer', params: { url: viewerUrl } })
       } else {
         Linking.openURL(url)
       }

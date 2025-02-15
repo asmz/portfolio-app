@@ -1,3 +1,4 @@
+import { COLORS } from '#/constants/environment'
 import { useLocalSearchParams } from 'expo-router'
 import { StyleSheet } from 'react-native'
 import WebView from 'react-native-webview'
@@ -6,7 +7,7 @@ type Params = {
   url: string
 }
 
-export const SlideWebView = () => {
+export const SlideViewer = () => {
   const { url } = useLocalSearchParams<Params>()
 
   return (
@@ -23,7 +24,7 @@ export const SlideWebView = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.slideViewerBackground,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -4,12 +4,6 @@ export default function Layout() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="slideview"
-        options={{
-          presentation: 'modal',
-        }}
-      />
     </Stack>
   )
 }
