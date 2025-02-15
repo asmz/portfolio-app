@@ -9,10 +9,10 @@ import {
 } from 'react-native'
 import { PostProps } from '#/types'
 import { COLORS } from '#/constants/environment'
-import { isLandscape } from '#/utils'
 import { useApiGetPosts } from '#/hooks'
 import { useErrorHandler } from '#/hooks/useErrorHandler'
 import { PostItem } from './PostItem'
+import { useOrientation } from '#/hooks/useOrientation'
 
 type Props = {
   tag: 'blog' | 'slide'
@@ -20,6 +20,7 @@ type Props = {
 }
 
 export const PostList = ({ tag, onPressItem }: Props) => {
+  const { isLandscape } = useOrientation()
   const {
     values: { posts, isLoading, error, isRefreshing },
     handlers: { refresh, loadMore },
@@ -53,7 +54,7 @@ export const PostList = ({ tag, onPressItem }: Props) => {
 
   return (
     <FlatList
-      contentContainerStyle={styles.list}
+      contentContainerStyle={{ paddingHorizontal: isLandscape ? 250 : 0 }}
       data={posts}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
@@ -65,9 +66,6 @@ export const PostList = ({ tag, onPressItem }: Props) => {
 }
 
 const styles = StyleSheet.create({
-  list: {
-    paddingHorizontal: isLandscape() ? 250 : 8,
-  },
   indicator: {
     alignItems: 'center',
     justifyContent: 'center',
