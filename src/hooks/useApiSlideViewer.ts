@@ -6,9 +6,8 @@ import { XMLParser } from 'fast-xml-parser'
 
 export const useApiSlideViewer = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [error, setError] = useState<Error | null>(null)
 
-  const fetch = useCallback(
+  const fetchViewerUrl = useCallback(
     async (speakerDeckUrl: string) => {
       if (isLoading) return null
       setIsLoading(true)
@@ -25,8 +24,8 @@ export const useApiSlideViewer = () => {
           return extractViewerUrlFromHtml(result.html)
         }
         return null
-      } catch (err) {
-        setError(err as Error)
+      } catch (error) {
+        console.log('Slide Viewer fetch error.', error)
         return null
       } finally {
         setIsLoading(false)
@@ -49,7 +48,7 @@ export const useApiSlideViewer = () => {
   }, [])
 
   return {
-    values: { isLoading, error },
-    handlers: { fetch },
+    values: { isLoading },
+    handlers: { fetchViewerUrl },
   }
 }

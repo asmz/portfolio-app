@@ -14,7 +14,7 @@ export default function Layout() {
         name="viewer"
         options={{
           headerShown: true,
-          headerTitle: '',
+          headerTitle: 'Slide Viewer',
         }}
       />
     </Stack>
