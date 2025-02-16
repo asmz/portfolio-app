@@ -25,7 +25,7 @@ export default function Layout() {
       <Tabs.Screen
         name="slide"
         options={{
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: () => <MaterialCommunityIcons size={24} name={'presentation'} />,
           tabBarLabel: 'Slide',
           headerTitle: 'Slide',

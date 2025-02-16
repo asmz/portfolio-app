@@ -6,14 +6,20 @@ import * as WebBrowser from 'expo-web-browser'
 
 type Props = {
   post: PostProps
+  onPressItem?: (post: PostProps) => void
 }
 
-export const PostItem = ({ post }: Props) => {
+export const PostItem = ({ post, onPressItem }: Props) => {
   const content = post.content[0]
   const poster = content.poster?.[0]
   const hostname = new URL(content.url).hostname
 
   const onPress = useCallback(() => {
+    if (onPressItem) {
+      onPressItem(post)
+      return
+    }
+
     if (Platform.OS === 'web') {
       Linking.openURL(content.url)
     } else {

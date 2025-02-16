@@ -9,16 +9,18 @@ import {
 } from 'react-native'
 import { PostProps } from '#/types'
 import { COLORS } from '#/constants/environment'
-import { isLandscape } from '#/utils'
 import { useApiGetPosts } from '#/hooks'
 import { useErrorHandler } from '#/hooks/useErrorHandler'
 import { PostItem } from './PostItem'
+import { useOrientation } from '#/hooks/useOrientation'
 
 type Props = {
   tag: 'blog' | 'slide'
+  onPressItem?: (post: PostProps) => void
 }
 
-export const PostList = ({ tag }: Props) => {
+export const PostList = ({ tag, onPressItem }: Props) => {
+  const { isLandscape } = useOrientation()
   const {
     values: { posts, isLoading, error, isRefreshing },
     handlers: { refresh, loadMore },
@@ -27,7 +29,7 @@ export const PostList = ({ tag }: Props) => {
   useErrorHandler(error)
 
   const renderItem = useCallback(
-    ({ item }: ListRenderItemInfo<PostProps>) => <PostItem post={item} />,
+    ({ item }: ListRenderItemInfo<PostProps>) => <PostItem post={item} onPressItem={onPressItem} />,
     []
   )
   const listFooterComponent = useCallback(() => {
@@ -52,7 +54,7 @@ export const PostList = ({ tag }: Props) => {
 
   return (
     <FlatList
-      contentContainerStyle={styles.list}
+      contentContainerStyle={{ paddingHorizontal: isLandscape ? 250 : 0 }}
       data={posts}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
@@ -64,9 +66,6 @@ export const PostList = ({ tag }: Props) => {
 }
 
 const styles = StyleSheet.create({
-  list: {
-    paddingHorizontal: isLandscape() ? 250 : 8,
-  },
   indicator: {
     alignItems: 'center',
     justifyContent: 'center',

@@ -28,3 +28,7 @@ export type PostResponse = {
     total_posts: number
   }
 }
+
+export type SpeakerDeckResponse = {
+  html: string
+}
