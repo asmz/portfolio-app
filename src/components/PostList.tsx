@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native'
 import { PostProps } from '#/types'
-import { COLORS } from '#/constants/environment'
+import { COLORS } from '#/constants/colors'
 import { useApiGetPosts } from '#/hooks'
 import { useErrorHandler } from '#/hooks/useErrorHandler'
 import { PostItem } from './PostItem'
