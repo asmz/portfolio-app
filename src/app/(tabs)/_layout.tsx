@@ -1,4 +1,4 @@
-import { COLORS } from '#/constants/environment'
+import { COLORS } from '#/constants/colors'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
 

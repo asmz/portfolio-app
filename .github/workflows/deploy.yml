@@ -24,8 +24,8 @@ jobs:
 
       - name: Deploy
         env:
-          TUMBLR_API_END_POINT: ${{ secrets.TUMBLR_API_END_POINT }}
-          SPEAKER_DECK_API_END_POINT: ${{ secrets.SPEAKER_DECK_API_END_POINT }}
+          TUMBLR_API_END_POINT: ${{ env.TUMBLR_API_END_POINT }}
+          SPEAKER_DECK_API_END_POINT: ${{ env.SPEAKER_DECK_API_END_POINT }}
         run: |
           git config --global user.email "land.front.high.field@gmail.com"
           git config --global user.name "asmz"

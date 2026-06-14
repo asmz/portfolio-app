@@ -1,4 +1,4 @@
-import { COLORS } from '#/constants/environment'
+import { COLORS } from '#/constants/colors'
 import { Image, StyleSheet, Text, View } from 'react-native'
 
 export const Nameplate = () => (

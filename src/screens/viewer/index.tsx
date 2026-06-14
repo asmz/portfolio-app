@@ -1,4 +1,4 @@
-import { COLORS } from '#/constants/environment'
+import { COLORS } from '#/constants/colors'
 import { useLocalSearchParams } from 'expo-router'
 import { StyleSheet } from 'react-native'
 import WebView from 'react-native-webview'

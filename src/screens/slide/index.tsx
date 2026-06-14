@@ -1,5 +1,5 @@
 import { GlobalLayout, PostList } from '#/components'
-import { COLORS } from '#/constants/environment'
+import { COLORS } from '#/constants/colors'
 import { useApiSlideViewer } from '#/hooks/useApiSlideViewer'
 import { useErrorHandler } from '#/hooks/useErrorHandler'
 import { PostProps } from '#/types'

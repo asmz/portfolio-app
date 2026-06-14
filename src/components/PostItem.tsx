@@ -1,4 +1,4 @@
-import { COLORS } from '#/constants/environment'
+import { COLORS } from '#/constants/colors'
 import { PostProps } from '#/types'
 import { useCallback } from 'react'
 import { Image, Linking, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
