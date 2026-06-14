@@ -1,7 +1,7 @@
 import { AccountProps } from '#/types'
 import { useCallback } from 'react'
 import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { FontAwesome } from '@expo/vector-icons'
+import { FontAwesome } from '@react-native-vector-icons/fontawesome'
 import { COLORS } from '#/constants/colors'
 
 type Props = {

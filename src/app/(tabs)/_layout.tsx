@@ -1,5 +1,6 @@
 import { COLORS } from '#/constants/colors'
-import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
+import { FontAwesome } from '@react-native-vector-icons/fontawesome'
+import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons'
 import { Tabs } from 'expo-router'
 
 export default function Layout() {
@@ -26,7 +27,7 @@ export default function Layout() {
         name="slide"
         options={{
           headerShown: false,
-          tabBarIcon: () => <MaterialCommunityIcons size={24} name={'presentation'} />,
+          tabBarIcon: () => <MaterialDesignIcons size={24} name={'presentation'} />,
           tabBarLabel: 'Slide',
           headerTitle: 'Slide',
         }}

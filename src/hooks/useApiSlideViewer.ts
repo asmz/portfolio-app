@@ -40,7 +40,7 @@ export const useApiSlideViewer = () => {
     const htmlObj = parser.parse(html)
     const src = htmlObj.iframe['@_src']
     if (src) {
-      return `https:${src}`
+      return src
     } else {
       throw new Error('HTML parse error.')
     }
