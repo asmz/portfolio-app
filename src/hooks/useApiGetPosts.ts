@@ -1,5 +1,4 @@
 import { useState, useCallback, useRef } from 'react'
-import { TUMBLR_API_END_POINT } from '#/constants/environment'
 import { PostProps, PostResponse } from '#/types'
 import { apiClient } from '#/api/apiClient'
 
@@ -27,7 +26,7 @@ export const useApiGetPosts = (tag: string) => {
         npf: true,
       }
       const result = await apiClient<PostResponse>({
-        url: TUMBLR_API_END_POINT,
+        url: process.env.EXPO_PUBLIC_TUMBLR_API_END_POINT,
         params,
       })
 

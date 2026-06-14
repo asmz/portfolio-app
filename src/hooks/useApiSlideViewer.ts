@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react'
-import { SPEAKER_DECK_API_END_POINT } from '#/constants/environment'
 import { SpeakerDeckResponse } from '#/types'
 import { apiClient } from '#/api/apiClient'
 import { XMLParser } from 'fast-xml-parser'
@@ -17,7 +16,7 @@ export const useApiSlideViewer = () => {
           url: speakerDeckUrl,
         }
         const result = await apiClient<SpeakerDeckResponse>({
-          url: SPEAKER_DECK_API_END_POINT,
+          url: process.env.EXPO_PUBLIC_SPEAKER_DECK_API_END_POINT,
           params,
         })
         if (result) {
