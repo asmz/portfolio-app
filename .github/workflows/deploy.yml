@@ -32,6 +32,8 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
 
           # Setup env file
+          echo "TUMBLR_API_END_POINT: $TUMBLR_API_END_POINT"
+          echo "SPEAKER_DECK_API_END_POINT: $SPEAKER_DECK_API_END_POINT"
           echo "EXPO_PUBLIC_TUMBLR_API_END_POINT=$TUMBLR_API_END_POINT" > .env
           echo "EXPO_PUBLIC_SPEAKER_DECK_API_END_POINT=$SPEAKER_DECK_API_END_POINT" >> .env
 
